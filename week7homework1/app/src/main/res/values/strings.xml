@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">week7homework1</string>
+    <string name="download">Download</string>
+    <string name="http">Http</string>
+    <string name="loading">Loading</string>
+    <string name="image">Image</string>
+    <string name="input_your_url">Input your Url</string>
+    <string name="image_dialog">Image Dialog</string>
+    <string name="close_button">Close Button</string>
+    <string name="incorrect_argument">Incorrect Argument</string>
+    <string-array name="items">
+        <item>image1</item>
+        <item>image2</item>
+        <item>image3</item>
+    </string-array>
+</resources>
