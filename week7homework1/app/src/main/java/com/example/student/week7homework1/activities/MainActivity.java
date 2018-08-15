@@ -3,7 +3,6 @@ package com.example.student.week7homework1.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,14 +20,18 @@ import com.example.student.week7homework1.R;
 import com.example.student.week7homework1.adapters.DownloadAdapter;
 import com.example.student.week7homework1.dialogs.ImageDialog;
 import com.example.student.week7homework1.models.ImageDownload;
-import com.example.student.week7homework1.providers.DataProvider;
 import com.example.student.week7homework1.threadsandothers.DownloadAsyncTask;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView publicText;
     private boolean flag = false;
-
+    private int position;
+    private List<ImageDownload> list = new ArrayList<>();
 
     @SuppressLint("ResourceType")
     @Override
@@ -44,19 +47,23 @@ public class MainActivity extends AppCompatActivity {
     private void downloadImage() {
         final Button downloadButton = findViewById(R.id.download_button);
         downloadButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("CommitTransaction")
+            @SuppressLint({"CommitTransaction", "StringFormatInvalid"})
             @Override
             public void onClick(View view) {
                 if (!flag) {
                     isCorrect();
                     flag = true;
                 }
-                if (!DataProvider.getList().get(DataProvider.getPosition()).isSaved()) {
+                if (!list.get(position).isSaved()) {
                     askPermissions();
-                    new DownloadAsyncTask(MainActivity.this).execute(publicText.getText().toString());
-                    DataProvider.getList().get(DataProvider.getPosition()).setSaved(true);
+                    new DownloadAsyncTask(MainActivity.this, position).execute(publicText.getText().toString());
+                    list.get(position).setSaved(true);
                 }else {
+                    final Bundle bundle = new Bundle();
+                    bundle.putInt(getString(R.string.my_key), position);
+                    bundle.putSerializable(getString(R.string.my_list_key), (Serializable) list);
                     ImageDialog imageDialog = new ImageDialog();
+                    imageDialog.setArguments(bundle);
                     imageDialog.show(getFragmentManager().beginTransaction(), "commit");
                 }
             }
@@ -86,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                         1001);
             }
         } else {
-            Log.i("ffff", "fail");
+            Toast.makeText(this, getString(R.string.not_resorces), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -97,10 +104,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startRecView() {
+        DownloadAdapter downloadAdapter = new DownloadAdapter(this, getResources().getStringArray(R.array.items));
+
         final RecyclerView recyclerView = findViewById(R.id.rec_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new DownloadAdapter(this, DataProvider.getList()));
+        recyclerView.setAdapter(downloadAdapter);
     }
 
     public void setVisibility(final boolean flag){
@@ -121,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateText(final int position){
-        final String url = DataProvider.getList().get(position).getHttp();
+        final String url = list.get(position).getHttp();
+        this.position = position;
         publicText.setText(url);
     }
 
@@ -130,9 +140,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData(){
-        DataProvider.getList().add(new ImageDownload("https://www.w3schools.com/w3css/img_lights.jpg", false));
-        DataProvider.getList().add(new ImageDownload("https://www.w3schools.com/w3images/fjords.jpg", false));
-        DataProvider.getList().add(new ImageDownload("https://cdn.pixabay.com/photo/2013/04/06/11/50/image-editing-101040_960_720.jpg", false));
+        list.add(new ImageDownload(getString(R.string.http1), false));
+        list.add(new ImageDownload(getString(R.string.http2), false));
+        list.add(new ImageDownload(getString(R.string.http3), false));
     }
 
 }

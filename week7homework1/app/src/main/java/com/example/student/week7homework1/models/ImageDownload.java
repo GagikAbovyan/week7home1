@@ -1,6 +1,10 @@
 package com.example.student.week7homework1.models;
 
-public class ImageDownload {
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class ImageDownload implements Serializable {
 
     private final String http;
     private boolean isSaved;

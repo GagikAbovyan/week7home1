@@ -8,6 +8,15 @@
     <string name="image_dialog">Image Dialog</string>
     <string name="close_button">Close Button</string>
     <string name="incorrect_argument">Incorrect Argument</string>
+    <string name="my_key">MY_KEY</string>
+    <string name="my_list_key">MY_LIST_KEY</string>
+    <string name="http1">https://www.w3schools.com/w3css/img_lights.jpg</string>
+    <string name="http2">https://www.w3schools.com/w3images/fjords.jpg</string>
+    <string name="http3">https://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg</string>
+    <string name="not_resorces">not_resources</string>
+    <string name="try_again">try again</string>
+    <string name="title">title</string>
+    <string name="description">Description</string>
     <string-array name="items">
         <item>image1</item>
         <item>image2</item>

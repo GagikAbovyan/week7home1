@@ -8,21 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.example.student.week7homework1.models.ImageDownload;
 import com.example.student.week7homework1.activities.MainActivity;
 import com.example.student.week7homework1.R;
-import com.example.student.week7homework1.providers.DataProvider;
 
-import java.util.List;
 
 public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.DownloadViewHolder>{
 
     private final Context context;
-    private final List<ImageDownload> list;
+    private final String array[];
 
-    public DownloadAdapter(final Context context, final List<ImageDownload> list) {
+    public DownloadAdapter(final Context context, final String array[]) {
         this.context = context;
-        this.list = list;
+        this.array = array;
     }
 
     @NonNull
@@ -33,15 +30,14 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.Downlo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final DownloadViewHolder holder, final int position) {
-        final String image[] = context.getResources().getStringArray(R.array.items);
-        holder.textViewItem.setText(image[position]);
+    public void onBindViewHolder(@NonNull final DownloadViewHolder holder, final int position) { ;
+        holder.textViewItem.setText(array[position]);
         itemClick(holder, position);
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return array.length;
     }
 
     class DownloadViewHolder extends RecyclerView.ViewHolder{
@@ -57,7 +53,6 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.Downlo
         holder.textViewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DataProvider.setPosition(position);
                 ((MainActivity)context).updateText(position);
             }
         });
